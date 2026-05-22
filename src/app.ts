@@ -4,6 +4,7 @@ import express, {
   type Response,
 } from "express";
 import { StatusCodes } from "http-status-codes";
+import { userRoute } from "./modules/user/user.route";
 
 const app: Application = express();
 
@@ -19,5 +20,8 @@ app.get("/", (req: Request, res: Response) => {
     message: "Assignment Server is running...",
   });
 });
+
+
+app.use("/api/auth", userRoute)
 
 export default app;
