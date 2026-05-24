@@ -4,3 +4,8 @@ export interface IUserCreate {
   password: string;
   role: "contributor" | "maintainer";
 }
+
+export interface IUserLogin {
+  email: string;
+  password: string;
+}
