@@ -12,5 +12,7 @@ route.post(
 );
 
 route.get("/issues", issueController.getAllIssues);
+route.get("/issues/:id", issueController.getByIdIssue);
+route.patch("/issues/:id",);
 
 export const issueRoute = route;

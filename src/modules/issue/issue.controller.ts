@@ -24,17 +24,51 @@ class IssueController {
   }
 
   async getAllIssues(req: Request, res: Response) {
-    const result = await issueService.getAll();
-    // console.log("get All issues", result);
+    try {
+      const result = await issueService.getAll(req.query);
+      // console.log("get All issues", result);
 
-    const issues = result.rows
-    // console.log(result.rows)
+      // const issues = result
+      // console.log("issues controller",result)
+      // // console.log(result.rows)
 
-    res.status(StatusCodes.OK).json({
-      success: true,
-      message: "Issues retrived successfully",
-      data: issues,
-    });
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: "Issues retrived successfully",
+        data: result,
+      });
+    } catch (error) {}
+  }
+
+  async getByIdIssue(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const result = await issueService.getById(id as string);
+      res.status(200).json({
+        success: true,
+        message: "Issue retrieved successfully",
+        data: result,
+      });
+    } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+        success: false,
+        message: "Something went wrong",
+        errors: error,
+      });
+    }
+  }
+
+  async updateIssue(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      const result = await issueService.update(req.body, id as string);
+
+      console.log("update issue", result)
+
+    } catch (error) {}
   }
 }
 export const issueController = new IssueController();
