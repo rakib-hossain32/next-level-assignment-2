@@ -41,9 +41,9 @@ class UserController {
     try {
         const result = await userService.login(req.body);
       
-        console.log("result for login", result);
+        // console.log("result for login", result);
 
-          console.log("auth controller", result);
+          // console.log("auth controller", result);
           const { accessToken } = result;
 
           res.cookie("accessToken", accessToken, {

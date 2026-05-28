@@ -199,7 +199,21 @@ class IssueService {
       [title, description, type, id],
     );
 
-    return updateResult;
+    // console.log("updated result", updateResult)
+    const updated = updateResult.rows[0];
+
+    return updated;
+  }
+
+  async delete(id: string) {
+    const result = await pool.query(
+      `
+      DELETE FROM issues WHERE id=$1
+      `,
+      [id],
+    );
+
+    return result;
   }
 }
 

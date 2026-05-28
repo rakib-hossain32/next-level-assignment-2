@@ -6,7 +6,7 @@ import { pool } from "../../db/database";
 class IssueController {
   async createIssue(req: Request, res: Response) {
     try {
-      console.log(req.headers.authorization, "issue controller");
+      // console.log(req.headers.authorization, "issue controller");
       const token = req.headers.authorization as string;
 
       const result = await issueService.create(req.body, token);
@@ -66,9 +66,36 @@ class IssueController {
     try {
       const result = await issueService.update(req.body, id as string);
 
-      console.log("update issue", result)
+      console.log("update issue", result);
 
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: "Issue updated successfully",
+        data: result,
+      });
     } catch (error) {}
+  }
+
+  async deleteIssue(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const result = await issueService.delete(id as string);
+
+      console.log("delete issue", result);
+      if (result.rowCount === 0) {
+        res.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          message: "User not Found",
+        });
+      }
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: "Issue deleted successfully",
+      });
+    } catch (error) {
+      console.log("delete issue", error);
+    }
   }
 }
 export const issueController = new IssueController();
