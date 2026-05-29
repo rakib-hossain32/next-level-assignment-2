@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { issueService } from "./issue.service";
 import { StatusCodes } from "http-status-codes";
 import { pool } from "../../db/database";
+import sendResponse from "../../utils/sendResponse";
 
 class IssueController {
   async createIssue(req: Request, res: Response) {
@@ -13,11 +14,20 @@ class IssueController {
 
       //   console.log("controller issue", result);
       //   res.json({ result });
-      res.status(StatusCodes.CREATED).json({
+      // res.status(StatusCodes.CREATED).json({
+      //   success: true,
+      //   message: "Issue created successfully",
+      //   data: result,
+      // });
+
+
+      sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
         success: true,
         message: "Issue created successfully",
         data: result,
       });
+
     } catch (error) {
       console.log("issue controller", error);
     }
@@ -32,11 +42,21 @@ class IssueController {
       // console.log("issues controller",result)
       // // console.log(result.rows)
 
-      res.status(StatusCodes.OK).json({
+      // res.status(StatusCodes.OK).json({
+      //   success: true,
+      //   message: "Issues retrived successfully",
+      //   data: result,
+      // });
+
+      sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
         success: true,
-        message: "Issues retrived successfully",
+        message: "Issue created successfully",
         data: result,
       });
+
+
+
     } catch (error) {}
   }
 

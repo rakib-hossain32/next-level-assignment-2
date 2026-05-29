@@ -25,10 +25,11 @@ const issueDelete = () => {
         });
       }
 
-      console.log("delete issue", decoded);
+      //   console.log("delete issue", decoded);
       next();
     } catch (error) {
-      console.log("delete issue error", error);
+      next(error);
+    //   console.log("delete issue error", error);
     }
   };
 };

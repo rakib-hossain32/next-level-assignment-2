@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { userService } from "./user.service";
 import { StatusCodes } from "http-status-codes";
+import sendResponse from "../../utils/sendResponse";
 
 // export const createUser = async (req: Request, res: Response) => {
 //   try {
@@ -26,8 +27,15 @@ class UserController {
 
       const { id, name, email, role, created_at, updated_at } = result.rows[0];
 
-    //   console.log(result);
-      res.status(StatusCodes.CREATED).json({
+      // //   console.log(result);
+      // res.status(StatusCodes.CREATED).json({
+      //   success: true,
+      //   message: "User registered successfully",
+      //   data: { id, name, email, role, created_at, updated_at },
+      // });
+
+      sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
         success: true,
         message: "User registered successfully",
         data: { id, name, email, role, created_at, updated_at },
@@ -39,28 +47,37 @@ class UserController {
 
   async loginUser(req: Request, res: Response) {
     try {
-        const result = await userService.login(req.body);
-      
-        // console.log("result for login", result);
+      const result = await userService.login(req.body);
 
-          // console.log("auth controller", result);
-          const { accessToken } = result;
+      // console.log("result for login", result);
 
-          res.cookie("accessToken", accessToken, {
-            secure: false, // in production => true
-            httpOnly: true,
-            sameSite: "lax",
-          });
+      // console.log("auth controller", result);
+      const { accessToken } = result;
 
-        res.status(StatusCodes.OK).json({
-            success: true,
-            message: "Login successful",
-            data: {
-                token: result.accessToken,
-                user: result.user
-            }
-        })
-        
+      res.cookie("accessToken", accessToken, {
+        secure: false, // in production => true
+        httpOnly: true,
+        sameSite: "lax",
+      });
+
+      // res.status(StatusCodes.OK).json({
+      //   success: true,
+      //   message: "Login successful",
+      //   data: {
+      //     token: result.accessToken,
+      //     user: result.user,
+      //   },
+      // });
+
+      sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: "Login successful",
+        data: {
+          token: result.accessToken,
+          user: result.user,
+        },
+      });
     } catch (error) {
       console.log("login user", error);
     }

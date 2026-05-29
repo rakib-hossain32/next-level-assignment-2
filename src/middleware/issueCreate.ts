@@ -19,10 +19,7 @@ const issueCreate = (...roles: UserRoles[]) => {
         });
       }
 
-    
       const decoded = jwt.verify(token as string, config.secret) as JwtPayload;
-       
-      
 
       const userData = await pool.query(
         `
@@ -31,7 +28,7 @@ const issueCreate = (...roles: UserRoles[]) => {
         [decoded.email],
       );
 
-    //    console.log(userData);
+      //    console.log(userData);
       const user = userData.rows[0];
 
       if (userData.rows.length === 0) {
@@ -46,14 +43,15 @@ const issueCreate = (...roles: UserRoles[]) => {
           success: false,
           message: "Forbidden !",
         });
-        }
-    //   console.log(decoded, "dafdsaf")
+      }
+      //   console.log(decoded, "dafdsaf")
 
       req.user = decoded;
 
       next();
     } catch (error) {
-      console.log("middleware",error);
+      next(error);
+      // console.log("middleware", error);
     }
   };
 };

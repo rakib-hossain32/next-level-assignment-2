@@ -56,9 +56,10 @@ const issueUpdate = () => {
         next();
       }
 
-      console.log("update middleware");
+      // console.log("update middleware");
     } catch (error) {
-        console.log("update middleware", error)
+      next(error)
+        // console.log("update middleware", error)
     }
   };
 };
