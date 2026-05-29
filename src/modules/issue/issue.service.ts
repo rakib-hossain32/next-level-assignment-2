@@ -5,13 +5,13 @@ import config from "../../config/env";
 
 class IssueService {
   async create(payload: IIssueCreate, token: string) {
-    const { title, description, type } = payload;
+    const { title, description, type, status } = payload;
     const result = await pool.query(
       `
-         INSERT INTO issues(title, description,  type)
-    VALUES($1,$2,$3) RETURNING *
+         INSERT INTO issues(title, description,  type, status)
+    VALUES($1,$2,$3,$4) RETURNING *
         `,
-      [title, description, type],
+      [title, description, type, status || "open"],
     );
 
     const decoded = jwt.verify(token, config.secret) as JwtPayload;

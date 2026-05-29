@@ -3,6 +3,7 @@ import { issueController } from "./issue.controller";
 import issueCreate from "../../middleware/issueCreate";
 import { USER_ROLES } from "../../types";
 import issueUpdate from "../../middleware/issueUpdate";
+import issueDelete from "../../middleware/issueDelete";
 
 const route: IRouter = Router();
 
@@ -15,6 +16,6 @@ route.post(
 route.get("/issues", issueController.getAllIssues);
 route.get("/issues/:id", issueController.getByIdIssue);
 route.patch("/issues/:id", issueUpdate(), issueController.updateIssue);
-route.delete("/issues/:id", issueController.deleteIssue);
+route.delete("/issues/:id", issueDelete(), issueController.deleteIssue);
 
 export const issueRoute = route;
