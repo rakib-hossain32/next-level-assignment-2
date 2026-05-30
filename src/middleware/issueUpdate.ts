@@ -26,7 +26,7 @@ const issueUpdate = () => {
         [id],
       );
 
-      // issue না থাকলে
+   
       if (issueResult.rows.length === 0) {
         return res.status(404).json({
           success: false,
@@ -36,9 +36,9 @@ const issueUpdate = () => {
 
       const issue = issueResult.rows[0];
 
-      // maintainer হলে সব allowed
+  
       if (decoded.role !== "maintainer") {
-        // contributor হলে নিজের issue হতে হবে
+
         if (issue.reporter_id !== decoded.id) {
           return res.status(StatusCodes.FORBIDDEN).json({
             success: false,
@@ -46,7 +46,7 @@ const issueUpdate = () => {
           });
         }
 
-        // issue অবশ্যই open হতে হবে
+       
         if (issue.status !== "open") {
           return res.status(StatusCodes.CONFLICT).json({
             success: false,
@@ -56,10 +56,10 @@ const issueUpdate = () => {
         next();
       }
 
-      // console.log("update middleware");
+    
     } catch (error) {
       next(error)
-        // console.log("update middleware", error)
+      
     }
   };
 };

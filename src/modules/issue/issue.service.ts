@@ -146,12 +146,13 @@ class IssueService {
     );
 
     // issue না পেলে
-    // if (issueResult.rows.length === 0) {
-    //   return res.status(404).json({
-    //     success: false,
-    //     message: "Issue not found",
-    //   });
-    // }
+    if (issueResult.rows.length === 0) {
+      // return res.status(404).json({
+      //   success: false,
+      //   message: "Issue not found",
+      // });
+      throw new Error("Issue not found");
+    }
 
     const issue = issueResult.rows[0];
 

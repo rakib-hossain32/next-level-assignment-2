@@ -6,6 +6,10 @@ import express, {
 import { StatusCodes } from "http-status-codes";
 import { userRoute } from "./modules/user/user.route";
 import { issueRoute } from "./modules/issue/issue.route";
+import {
+  globalErrorHandler,
+  notFoundHandler,
+} from "./middleware/globalErrorHandler";
 
 const app: Application = express();
 
@@ -23,5 +27,8 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/auth", userRoute);
 
 app.use("/api", issueRoute);
+
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 
 export default app;
