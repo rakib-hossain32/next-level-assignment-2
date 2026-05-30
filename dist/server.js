@@ -587,7 +587,8 @@ var notFoundHandler = (req, res, next) => {
 var globalErrorHandler = (err, req, res, next) => {
   res.status(StatusCodes6.INTERNAL_SERVER_ERROR).json({
     success: false,
-    message: err instanceof Error ? err.message : "Internal Server Error"
+    message: err instanceof Error ? err.message : "Internal Server Error",
+    errors: err
   });
 };
 
