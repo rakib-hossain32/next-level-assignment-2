@@ -4,16 +4,18 @@ import type { UserRoles } from "../types";
 import { StatusCodes } from "http-status-codes";
 import config from "../config/env";
 import { pool } from "../db/database";
+import sendResponse from "../utils/sendResponse";
 
 const issueCreate = (...roles: UserRoles[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    // console.log("issue controller", req.headers.authorization);
+
 
     try {
       const token = req.headers.authorization;
 
       if (!token) {
-        res.status(StatusCodes.UNAUTHORIZED).json({
+        sendResponse(res, {
+          statusCode: StatusCodes.UNAUTHORIZED,
           success: false,
           message: "Unauthorized access!!",
         });
@@ -32,17 +34,25 @@ const issueCreate = (...roles: UserRoles[]) => {
       const user = userData.rows[0];
 
       if (userData.rows.length === 0) {
-        res.status(StatusCodes.NOT_FOUND).json({
+
+
+        sendResponse(res, {
+          statusCode: StatusCodes.NOT_FOUND,
           success: false,
           message: "user not found!!",
         });
+
       }
 
       if (roles.length && !roles.includes(user.role)) {
-        res.status(StatusCodes.FORBIDDEN).json({
+
+        sendResponse(res, {
+          statusCode: StatusCodes.FORBIDDEN,
           success: false,
           message: "Forbidden !",
         });
+
+    
       }
       //   console.log(decoded, "dafdsaf")
 

@@ -1,24 +1,17 @@
 import type { NextFunction, Request, Response } from "express";
 import { issueService } from "./issue.service";
 import { StatusCodes } from "http-status-codes";
-import { pool } from "../../db/database";
 import sendResponse from "../../utils/sendResponse";
 
 class IssueController {
   async createIssue(req: Request, res: Response, next: NextFunction) {
     try {
-      // console.log(req.headers.authorization, "issue controller");
+    
       const token = req.headers.authorization as string;
 
       const result = await issueService.create(req.body, token);
 
-      //   console.log("controller issue", result);
-      //   res.json({ result });
-      // res.status(StatusCodes.CREATED).json({
-      //   success: true,
-      //   message: "Issue created successfully",
-      //   data: result,
-      // });
+    
 
       sendResponse(res, {
         statusCode: StatusCodes.CREATED,
@@ -27,7 +20,7 @@ class IssueController {
         data: result,
       });
     } catch (error) {
-      console.log("issue controller", error);
+      
       next(error)
     }
   }
@@ -35,17 +28,8 @@ class IssueController {
   async getAllIssues(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await issueService.getAll(req.query);
-      // console.log("get All issues", result);
+     
 
-      // const issues = result
-      // console.log("issues controller",result)
-      // // console.log(result.rows)
-
-      // res.status(StatusCodes.OK).json({
-      //   success: true,
-      //   message: "Issues retrived successfully",
-      //   data: result,
-      // });
 
       sendResponse(res, {
         statusCode: StatusCodes.OK,
@@ -54,7 +38,7 @@ class IssueController {
         data: result,
       });
     } catch (error) {
-      console.log(error);
+    
       next(error);
     }
   }
@@ -63,13 +47,7 @@ class IssueController {
     const { id } = req.params;
     try {
       const result = await issueService.getById(id as string);
-      // res.status(200).json({
-      //   success: true,
-      //   message: "Issue retrieved successfully",
-      //   data: result,
-      // });
-
-      console.log("issue single get",result)
+     
 
       sendResponse(res, {
         statusCode: StatusCodes.OK,
@@ -78,13 +56,9 @@ class IssueController {
         data: result,
       });
     } catch (error) {
-      // console.log(error);
+     
       next(error);
-      // res.status(500).json({
-      //   success: false,
-      //   message: "Something went wrong",
-      //   errors: error,
-      // });
+     
     }
   }
 
@@ -94,13 +68,7 @@ class IssueController {
     try {
       const result = await issueService.update(req.body, id as string);
 
-      // console.log("update issue", result);
-
-      // res.status(StatusCodes.OK).json({
-      //   success: true,
-      //   message: "Issue updated successfully",
-      //   data: result,
-      // });
+      
 
       sendResponse(res, {
         statusCode: StatusCodes.OK,
@@ -109,7 +77,7 @@ class IssueController {
         data: result,
       });
     } catch (error) {
-      console.log(error);
+     
       next(error);
     }
   }
@@ -119,23 +87,17 @@ class IssueController {
     try {
       const result = await issueService.delete(id as string);
 
-      // console.log("delete issue", result);
+     
       if (result.rowCount === 0) {
         sendResponse(res, {
           statusCode: StatusCodes.NOT_FOUND,
           success: true,
           message: "Issue not Found",
         });
-        // res.status(StatusCodes.NOT_FOUND).json({
-        //   success: false,
-        //   message: "Issue not Found",
-        // });
+       
       }
 
-      // res.status(StatusCodes.OK).json({
-      //   success: true,
-      //   message: "Issue deleted successfully",
-      // });
+      
       sendResponse(res, {
         statusCode: StatusCodes.OK,
           success: true,
@@ -143,7 +105,6 @@ class IssueController {
       })
     } catch (error) {
       next(error);
-      console.log("delete issue", error);
     }
   }
 }

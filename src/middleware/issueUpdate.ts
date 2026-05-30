@@ -3,6 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import config from "../config/env";
 import { pool } from "../db/database";
+import sendResponse from "../utils/sendResponse";
 
 const issueUpdate = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -11,10 +12,12 @@ const issueUpdate = () => {
       const token = req.headers.authorization;
 
       if (!token) {
-        res.status(StatusCodes.UNAUTHORIZED).json({
+        sendResponse(res, {
+          statusCode: StatusCodes.UNAUTHORIZED,
           success: false,
           message: "Unauthorized access!!",
         });
+        
       }
 
       const decoded = jwt.verify(token as string, config.secret) as JwtPayload;
@@ -26,9 +29,9 @@ const issueUpdate = () => {
         [id],
       );
 
-   
       if (issueResult.rows.length === 0) {
-        return res.status(404).json({
+        return sendResponse(res, {
+          statusCode: StatusCodes.NOT_FOUND,
           success: false,
           message: "Issue not found",
         });
@@ -36,30 +39,26 @@ const issueUpdate = () => {
 
       const issue = issueResult.rows[0];
 
-  
       if (decoded.role !== "maintainer") {
-
         if (issue.reporter_id !== decoded.id) {
-          return res.status(StatusCodes.FORBIDDEN).json({
+          return sendResponse(res, {
+            statusCode: StatusCodes.FORBIDDEN,
             success: false,
             message: "You are not allowed to update this issue",
           });
         }
 
-       
         if (issue.status !== "open") {
-          return res.status(StatusCodes.CONFLICT).json({
+          return sendResponse(res, {
+            statusCode: StatusCodes.CONFLICT,
             success: false,
             message: "Only open issues can be updated",
           });
         }
         next();
       }
-
-    
     } catch (error) {
-      next(error)
-      
+      next(error);
     }
   };
 };

@@ -145,12 +145,9 @@ class IssueService {
       [id],
     );
 
-    // issue না পেলে
+    
     if (issueResult.rows.length === 0) {
-      // return res.status(404).json({
-      //   success: false,
-      //   message: "Issue not found",
-      // });
+     
       throw new Error("Issue not found");
     }
 
@@ -199,8 +196,6 @@ class IssueService {
       `,
       [title, description, type, id],
     );
-
-    // console.log("updated result", updateResult)
     const updated = updateResult.rows[0];
 
     return updated;

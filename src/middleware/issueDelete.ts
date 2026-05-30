@@ -2,6 +2,7 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import config from "../config/env";
+import sendResponse from "../utils/sendResponse";
 
 const issueDelete = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -10,7 +11,8 @@ const issueDelete = () => {
       const token = req.headers.authorization;
 
       if (!token) {
-        res.status(StatusCodes.UNAUTHORIZED).json({
+        return sendResponse(res, {
+          statusCode: StatusCodes.UNAUTHORIZED,
           success: false,
           message: "Unauthorized access!!",
         });
@@ -19,17 +21,16 @@ const issueDelete = () => {
       const decoded = jwt.verify(token as string, config.secret) as JwtPayload;
 
       if (decoded.role !== "maintainer") {
-        return res.status(StatusCodes.CONFLICT).json({
+        return sendResponse(res, {
+          statusCode: StatusCodes.CONFLICT,
           success: false,
           message: "Only maintainer issues can be updated",
         });
       }
 
-      //   console.log("delete issue", decoded);
       next();
     } catch (error) {
       next(error);
-    //   console.log("delete issue error", error);
     }
   };
 };

@@ -1,29 +1,10 @@
-import type { Request, Response } from "express";
+
 import type { IUserCreate, IUserLogin } from "./user.interface";
 import bcrypt from "bcrypt";
 import { pool } from "../../db/database";
 import jwt from "jsonwebtoken";
 import config from "../../config/env";
 
-// export const createUserDB = async (payload: IUserCreate) => {
-//   const { name, password, email, role } = payload;
-
-//   const hashPassword = await bcrypt.hash(password, 10);
-
-//   const result = await pool.query(
-//     `
-
-//     INSERT INTO users(name, email,  password , role)
-//     VALUES($1,$2,$3, $4) RETURNING *
-//     `,
-//     [name, email, hashPassword, role],
-//   );
-
-//   // delete result.rows[0].password;
-//   // console.log("service",result)
-
-//   return result;
-// };
 
 class UserService {
   async create(payload: IUserCreate) {
@@ -40,8 +21,6 @@ class UserService {
       [name, email, hashPassword, role],
     );
 
-    // delete result.rows[0].password;
-    // console.log("service",result)
 
     return result;
   }
@@ -82,10 +61,7 @@ class UserService {
       expiresIn: "1d",
     });
 
-    // const refreshToken = jwt.sign(jwtPayload, config.refresh_secret, {
-    //   expiresIn: "1d",
-    // });
-    // user.delete(password)
+   
     delete user.password;
 
     return { accessToken, user };
