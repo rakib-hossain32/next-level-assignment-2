@@ -1,4 +1,4 @@
-# Issue Tracking API
+# Internal Tech Issue & Feature Tracker
 
 A robust REST API for managing issues with user authentication, role-based access control, and comprehensive issue management features.
 
@@ -38,13 +38,13 @@ A robust REST API for managing issues with user authentication, role-based acces
 
 - Node.js (v16 or higher)
 - PostgreSQL (v12 or higher)
-- npm or yarn
+- npm
 
 ### Installation Steps
 
-1. **Clone the repository** (if applicable)
+1. **Clone the repository** 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/rakib-hossain32/next-level-assignment-2.git
    cd assignment-2
    ```
 
@@ -250,7 +250,7 @@ src/
 - **Role-Based Access Control**: Middleware to check user roles
 - **Input Validation**: Server-side validation for all inputs
 - **Error Handling**: Comprehensive error handling with appropriate HTTP status codes
-- **CORS & Parsing**: Support for JSON, URL-encoded, and text data
+
 
 ## 📝 Example Usage
 
@@ -318,16 +318,3 @@ curl -X DELETE http://localhost:5000/api/issues/1 \
 | JWT token expired | Get a new token by logging in again |
 | Module not found | Run `npm install` to install all dependencies |
 
-## 📄 License
-
-ISC
-
-## 👤 Author
-
-Assignment 2 - Issue Tracking API
-
----
-
-**Last Updated**: May 2026
-
-For questions or issues, please contact the development team.

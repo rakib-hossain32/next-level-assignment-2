@@ -6,3 +6,9 @@ export interface IIssueCreate {
   type: string;
   status?: Status;
 }
+
+export interface IParams {
+  sort: "newest" | "oldest";
+  type: "bug" | "feature_request";
+  status: "open" | "in_progress" | "resolved";
+}

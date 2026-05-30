@@ -1,3 +1,4 @@
+
 import type { NextFunction, Request, Response } from "express";
 import { issueService } from "./issue.service";
 import { StatusCodes } from "http-status-codes";
@@ -27,7 +28,7 @@ class IssueController {
 
   async getAllIssues(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await issueService.getAll(req.query);
+      const result = await issueService.getAll(req.query)
      
 
 

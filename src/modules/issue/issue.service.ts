@@ -1,6 +1,6 @@
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import { pool } from "../../db/database";
-import type { IIssueCreate } from "./issue.interface";
+import type { IIssueCreate, IParams } from "./issue.interface";
 import config from "../../config/env";
 
 class IssueService {
@@ -61,10 +61,10 @@ class IssueService {
     return issue;
   }
 
-  async getAll(req: any) {
-    const { sort = "newest", type, status } = req;
+  async getAll(payload: Partial<IParams>) {
+    const { sort = "newest", type, status } = payload;
 
-    // =========================
+   
 
     let query = `SELECT * FROM issues`;
 
@@ -98,7 +98,7 @@ class IssueService {
     const reporterIds = [...new Set(issues.map((issue) => issue.reporter_id))];
 
     if (reporterIds.length === 0) {
-      return;
+      throw new Error("reporter id not found!");
     }
 
     const placeholders = reporterIds
@@ -145,9 +145,7 @@ class IssueService {
       [id],
     );
 
-    
     if (issueResult.rows.length === 0) {
-     
       throw new Error("Issue not found");
     }
 
